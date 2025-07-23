@@ -25,13 +25,13 @@ jobs:
 
       - name: Compile with Nuitka for Linux
         run: |
-          uv run nuitka --standalone --onefile paral.py
+          uv run nuitka --standalone --onefile --static-libpython=yes paral.py
 
       - name: Upload compiled binary
         uses: actions/upload-artifact@v4
         with:
-          name: compiled-binary-linux
-          path: paral
+          name: paral-linux-x64
+          path: paral.bin
 
   build-windows:
     runs-on: windows-latest
@@ -59,7 +59,7 @@ jobs:
       - name: Upload compiled binary
         uses: actions/upload-artifact@v4
         with:
-          name: compiled-binary-windows
+          name: paral-win-amd64
           path: paral.exe
 
   build-macos:
@@ -88,5 +88,5 @@ jobs:
       - name: Upload compiled binary
         uses: actions/upload-artifact@v4
         with:
-          name: compiled-binary-macos
-          path: paral
+          name: paral-darwin
+          path: paral.bin
