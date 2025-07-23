@@ -1,0 +1,92 @@
+name: Compile Standalone Binary
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build-linux:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version-file: "pyproject.toml"
+          python-version: '3.13'
+
+      - name: Install Dependencies
+        run: uv sync --locked
+
+      - name: Compile with Nuitka for Linux
+        run: |
+          uv run nuitka --standalone --onefile paral.py
+
+      - name: Upload compiled binary
+        uses: actions/upload-artifact@v4
+        with:
+          name: compiled-binary-linux
+          path: paral
+
+  build-windows:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version-file: "pyproject.toml"
+          python-version: '3.13'
+
+      - name: Install Dependencies
+        run: uv sync --locked
+
+      - name: Compile with Nuitka for Windows
+        run: |
+          uv run nuitka --standalone --onefile paral.py
+
+      - name: Upload compiled binary
+        uses: actions/upload-artifact@v4
+        with:
+          name: compiled-binary-windows
+          path: paral.exe
+
+  build-macos:
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version-file: "pyproject.toml"
+          python-version: '3.13'
+
+      - name: Install Dependencies
+        run: uv sync --locked
+
+      - name: Compile with Nuitka for macOS
+        run: |
+          uv run nuitka --standalone --onefile paral.py
+
+      - name: Upload compiled binary
+        uses: actions/upload-artifact@v4
+        with:
+          name: compiled-binary-macos
+          path: paral
