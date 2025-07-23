@@ -54,7 +54,7 @@ jobs:
 
       - name: Compile with Nuitka for Windows
         run: |
-          uv run nuitka --standalone --onefile paral.py
+          uv run nuitka --onefile --standalone paral.py
 
       - name: Upload compiled binary
         uses: actions/upload-artifact@v4
